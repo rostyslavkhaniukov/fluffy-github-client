@@ -26,7 +26,7 @@ class PullRequestsService extends AbstractService
 
     public function closed(): PullRequestsService
     {
-        $this->client->setQueryParam('state', 'closed');
+        $this->client->setQueryParam('state', ['closed']);
 
         return $this;
     }
@@ -39,7 +39,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return PullRequest::fromCollection($content);
     }
@@ -53,7 +53,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$pullId}/commits");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Commit::fromArray($content);
     }
@@ -69,7 +69,7 @@ class PullRequestsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         //return Commit::fromArray($content);
     }
@@ -83,7 +83,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$id}/reviews");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Review::fromCollection($content);
     }

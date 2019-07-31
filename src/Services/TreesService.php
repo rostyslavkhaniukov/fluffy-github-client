@@ -32,7 +32,7 @@ class TreesService extends AbstractService
             RequestOptions::JSON => $tree
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Tree::fromArray($content);
     }
@@ -51,7 +51,7 @@ class TreesService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Tree::fromArray($content);
     }

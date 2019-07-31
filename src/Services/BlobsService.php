@@ -39,7 +39,7 @@ class BlobsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Blob::fromArray($content);
     }

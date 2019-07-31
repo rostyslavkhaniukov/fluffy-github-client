@@ -24,7 +24,7 @@ class CheckRunsService extends AbstractService
     /**
      * @param string $repository
      * @param string $ref
-     * @return CheckRun[]
+     * @return array
      */
     public function create(string $repository, string $ref): array
     {
@@ -38,9 +38,7 @@ class CheckRunsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
-
-        var_dump($content);die;
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         //return Label::fromArray($content);
     }

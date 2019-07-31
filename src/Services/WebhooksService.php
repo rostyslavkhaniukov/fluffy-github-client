@@ -30,7 +30,7 @@ class WebhooksService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/hooks");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Webhook::fromCollection($content);
     }
@@ -50,7 +50,7 @@ class WebhooksService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Webhook::fromArray($content);
     }

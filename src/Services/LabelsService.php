@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\Label;
-use Fluffy\GithubClient\Entities\Webhook;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
 
@@ -35,7 +34,7 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Label::fromCollection($content);
     }
@@ -60,19 +59,19 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Label::fromArray($content);
     }
 
     /**
      * @param string $repository
-     * @param $name
-     * @param $color
-     * @param $description
-     * @return \Fluffy\GithubClient\Entities\Release|Label
+     * @param string $name
+     * @param string $color
+     * @param string $description
+     * @return Label
      */
-    public function update(string $repository, $name, $color, $description)
+    public function update(string $repository, string $name, string $color, string $description)
     {
         $response = $this->client->patch("/repos/{$this->owner}/{$repository}/labels/{$name}", [
             RequestOptions::JSON => [
@@ -85,7 +84,7 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Label::fromArray($content);
     }

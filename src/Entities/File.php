@@ -46,7 +46,12 @@ class File
     public function getDecoded(): ?string
     {
         if ($this->encoding === 'base64') {
-            return base64_decode($this->content, true);
+            $result = base64_decode($this->content, true);
+            if ($result === false) {
+                return null;
+            }
+
+            return $result;
         }
 
         return null;

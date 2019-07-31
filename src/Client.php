@@ -27,46 +27,45 @@ class Client
     private $httpClient;
 
     /** @var Services\PullRequestsService */
-    private $pullRequestsService;
+    private $pullRequestsService = null;
 
     /** @var Services\WebhooksService */
-    private $webhooksService;
+    private $webhooksService = null;
 
     /** @var Services\LabelsService */
-    private $labelsService;
+    private $labelsService = null;
 
     /** @var Services\CommitsService */
-    private $commitsService;
+    private $commitsService = null;
 
     /** @var Services\StatusesService */
-    private $statusesService;
+    private $statusesService = null;
 
     /** @var Services\CheckRunsService */
-    private $checkRunsService;
+    private $checkRunsService = null;
 
     /** @var Services\WebhookProcessorService */
-    private $webhooksProcessorService;
+    private $webhooksProcessorService = null;
 
     /** @var Services\ContentsService */
-    private $contentsService;
+    private $contentsService = null;
 
     /** @var Services\BranchesService */
-    private $branchesService;
+    private $branchesService = null;
 
     /** @var Services\RefsService */
-    private $refsService;
+    private $refsService = null;
 
     /** @var Services\BlobsService */
-    private $blobsService;
+    private $blobsService = null;
 
     /** @var Services\TreesService */
-    private $treesService;
+    private $treesService = null;
 
     /** @var Services\SearchService */
-    private $searchService;
+    private $searchService = null;
 
     /**
-     * Client constructor.
      * @param array $config
      */
     public function __construct(array $config)
@@ -78,7 +77,7 @@ class Client
 
     public function webhookProcessorService()
     {
-        if (!$this->webhooksProcessorService) {
+        if ($this->webhooksProcessorService === null) {
             $this->webhooksProcessorService = new Services\WebhookProcessorService($this->httpClient, $this->owner);
         }
 
@@ -87,7 +86,7 @@ class Client
 
     public function webhooks(): Services\WebhooksService
     {
-        if (!$this->webhooksService) {
+        if ($this->webhooksService === null) {
             $this->webhooksService = new Services\WebhooksService($this->httpClient, $this->owner);
         }
 
@@ -96,8 +95,8 @@ class Client
 
     public function search(): Services\SearchService
     {
-        if (!$this->searchService) {
-            $this->searchService = new Services\SearchService($this->httpClient, $this->owner);
+        if ($this->searchService === null) {
+            $this->searchService = new Services\SearchService($this->httpClient);
         }
 
         return $this->searchService;
@@ -105,7 +104,7 @@ class Client
 
     public function labels(): Services\LabelsService
     {
-        if (!$this->labelsService) {
+        if ($this->labelsService === null) {
             $this->labelsService = new Services\LabelsService($this->httpClient, $this->owner);
         }
 
@@ -114,7 +113,7 @@ class Client
 
     public function branches(): Services\BranchesService
     {
-        if (!$this->branchesService) {
+        if ($this->branchesService === null) {
             $this->branchesService = new Services\BranchesService($this->httpClient);
         }
 
@@ -123,7 +122,7 @@ class Client
 
     public function blobs(): Services\BlobsService
     {
-        if (!$this->blobsService) {
+        if ($this->blobsService === null) {
             $this->blobsService = new Services\BlobsService($this->httpClient);
         }
 
@@ -132,7 +131,7 @@ class Client
 
     public function refs(): Services\RefsService
     {
-        if (!$this->refsService) {
+        if ($this->refsService === null) {
             $this->refsService = new Services\RefsService($this->httpClient);
         }
 
@@ -141,7 +140,7 @@ class Client
 
     public function pullRequests(): Services\PullRequestsService
     {
-        if (!$this->pullRequestsService) {
+        if ($this->pullRequestsService === null) {
             $this->pullRequestsService = new Services\PullRequestsService($this->httpClient, $this->owner);
         }
 
@@ -150,7 +149,7 @@ class Client
 
     public function contents(): Services\ContentsService
     {
-        if (!$this->contentsService) {
+        if ($this->contentsService === null) {
             $this->contentsService = new Services\ContentsService($this->httpClient);
         }
 
@@ -159,7 +158,7 @@ class Client
 
     public function commits(): Services\CommitsService
     {
-        if (!$this->commitsService) {
+        if ($this->commitsService === null) {
             $this->commitsService = new Services\CommitsService($this->httpClient, $this->owner);
         }
 
@@ -168,7 +167,7 @@ class Client
 
     public function trees(): Services\TreesService
     {
-        if (!$this->treesService) {
+        if ($this->treesService === null) {
             $this->treesService = new Services\TreesService($this->httpClient);
         }
 
@@ -177,7 +176,7 @@ class Client
 
     public function statuses(): Services\StatusesService
     {
-        if (!$this->statusesService) {
+        if ($this->statusesService === null) {
             $this->statusesService = new Services\StatusesService($this->httpClient, $this->owner);
         }
 
@@ -186,7 +185,7 @@ class Client
 
     public function checkRuns(): Services\CheckRunsService
     {
-        if (!$this->checkRunsService) {
+        if ($this->checkRunsService === null) {
             $this->checkRunsService = new Services\CheckRunsService($this->httpClient, $this->owner);
         }
 
@@ -194,11 +193,11 @@ class Client
     }
 
     /**
-     * @param $baseUri
+     * @param string $baseUri
      * @param array $config
      * @return Http\Client
      */
-    public function configureClient($baseUri, array $config = []): Http\Client
+    public function configureClient(string $baseUri, array $config = []): Http\Client
     {
         $httpClient = new Http\Client([
             'base_uri' => $this->prepareBaserUri($baseUri),
@@ -234,7 +233,7 @@ class Client
     }
 
     /**
-     * @param $baseUri
+     * @param string $baseUri
      * @return string
      */
     private function prepareBaserUri(string $baseUri): string
@@ -242,101 +241,19 @@ class Client
         return rtrim($baseUri, '/') . '/';
     }
 
-    public function getPRCommits()
-    {
-        return $this->get(
-            $this->pullRequestEndpoint() . '/' . '1' . '/commits'
-        );
-    }
-
-    public function collectReleasePRs()
-    {
-        $releases = $this->collectReleases();
-        $pullRequests = $this->pullRequests()->closed()->all($this->repo);
-        var_dump(count($pullRequests));
-        $diff = $this->collectDiff($releases[2]);
-
-
-        $shas = array_map(function ($commit) {
-            return $commit->sha;
-        }, $diff->commits);
-
-        $releasePR = [];
-        foreach ($pullRequests as $pullRequest) {
-            /** @var Entities\PullRequest $pullRequest */
-            if (in_array($pullRequest->head->sha, $shas, true)
-                || in_array($pullRequest->mergeCommitSha, $shas, true)
-            ) {
-                $releasePR[] = $pullRequest;
-            }
-        }
-
-        return $releasePR;
-    }
-
-    public function collectReleasePRs2()
-    {
-        $releases = Entities\Release::fromCollection($this->collectReleases());
-        $tag = $releases[1]->tagName;
-
-        $diff = $this->get($this->compareEndpoint($tag, 'master'));
-        $diff = Entities\Diff::fromArray($diff);
-        $shas = array_map(function ($commit) {
-            return $commit->sha;
-        }, $diff->commits);
-
-        $pullRequests = $this->get($this->pullRequestEndpoint(), [
-            'state' => 'closed',
-            'base' => 'master',
-            'per_page' => 100,
-            'sort' => 'updated',
-            'direction' => 'desc'
-        ]);
-
-        $releasePRs = [];
-        $pullRequests = Entities\PullRequest::fromCollection($pullRequests);
-        foreach ($pullRequests as $pullRequest) {
-            if (in_array($pullRequest->mergeCommitSha, $shas, true)
-                || in_array($pullRequest->head->sha, $shas, true)) {
-                $releasePRs[] = $pullRequest;
-            }
-        }
-        array_walk($releasePRs, function ($item) {
-            var_dump($item->title);
-        });
-        die;
-    }
-
     /**
-     * @return array
-     */
-    public function collectReleases()
-    {
-        print("Collect releases\n");
-        return Entities\Release::fromCollection($this->get($this->releasesEndpoint()));
-    }
-
-    /**
-     * @param Entities\Release $release
-     * @return Entities\Diff
-     */
-    public function collectDiff(Entities\Release $release)
-    {
-        $diff = $this->get($this->compareEndpoint($release, 'master'));
-        return Entities\Diff::fromArray($diff);
-    }
-
-    /**
-     * @param $url
+     * @param string $url
      * @param array $query
      * @return mixed
      */
-    public function get($url, $query = [])
+    public function get(string $url, $query = [])
     {
         $response = $this->httpClient->get($url, [
             RequestOptions::QUERY => $query,
         ]);
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+
         return $content;
     }
 
@@ -349,30 +266,7 @@ class Client
                 'base' => 'master',
             ],
         ]);
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         return $content;
-    }
-
-    public function getLastCommit()
-    {
-        $commits = $this->get($this->commitsEndpoint(), [
-            'per_page' => 1,
-        ]);
-        $commits = Entities\Commit::fromCollection($commits);
-        return array_shift($commits);
-    }
-
-    /**
-     * @param $sha
-     */
-    public function createTag($sha)
-    {
-        $tag = $this->post($this->tagsEndpoint(), [
-            'tag' => 'v0.0.1',
-            'message' => 'Test',
-            'type' => 'commit',
-            'object' => $sha,
-        ]);
-        var_dump($tag);
     }
 }

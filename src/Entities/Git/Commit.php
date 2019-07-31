@@ -17,7 +17,7 @@ class Commit
     /** @var string */
     private $message;
 
-    /** @var array */
+    /** @var Tree */
     public $tree;
 
     /** @var string */

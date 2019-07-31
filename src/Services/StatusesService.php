@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
 
+use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Entities\Status;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
@@ -31,7 +32,7 @@ class StatusesService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/commits/{$ref}/statuses");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Status::fromCollection($content);
     }
@@ -51,7 +52,7 @@ class StatusesService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         //return Label::fromArray($content);
     }

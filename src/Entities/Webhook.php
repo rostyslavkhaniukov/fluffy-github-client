@@ -27,7 +27,7 @@ class Webhook
 
     /**
      * @param array $data
-     * @return Release
+     * @return Webhook
      */
     public static function fromArray(array $data): Webhook
     {

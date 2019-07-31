@@ -31,7 +31,7 @@ class BranchesService extends AbstractService
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/branches/{$name}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Branch::fromArray($content);
     }

@@ -20,7 +20,7 @@ class Client extends \GuzzleHttp\Client
 
     /**
      * @inheritdoc
-     * @throws \Fluffy\GithubClient\Exceptions\DomainException
+     * @throws DomainException
      */
     public function request($method, $uri = '', array $options = [])
     {
@@ -32,7 +32,7 @@ class Client extends \GuzzleHttp\Client
             $response = parent::request($method, $uri, $resolvedOptions);
         } catch (RequestException $exception) {
             $code = $exception->getCode();
-            if ($exception->hasResponse()) {
+            if ($exception->hasResponse() && $exception->getResponse() !== null) {
                 $code = $exception->getResponse()->getStatusCode();
             }
             throw new DomainException($exception->getMessage(), $code);
@@ -45,15 +45,12 @@ class Client extends \GuzzleHttp\Client
 
     /**
      * @param string $key
-     * @param $values
+     * @param string[] $values
      * @return Client
      */
-    public function setQueryParam(string $key, $values): Client
+    public function setQueryParam(string $key, array $values): Client
     {
-        if (\is_array($values)) {
-            $values = implode(',', $values);
-        }
-
+        $values = implode(',', $values);
         $this->queryParams[$key] = $values;
 
         return $this;

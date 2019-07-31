@@ -38,7 +38,7 @@ class CommitsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         // return Label::fromCollection($content);
     }
@@ -52,7 +52,7 @@ class CommitsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/commits/{$sha}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Commit::fromArray($content);
     }
@@ -65,8 +65,13 @@ class CommitsService extends AbstractService
      * @param string $message
      * @return Git\Commit
      */
-    public function commit(string $owner, string $repository, string $treeSha, array $parents, string $message): Git\Commit
-    {
+    public function commit(
+        string $owner,
+        string $repository,
+        string $treeSha,
+        array $parents,
+        string $message
+    ): Git\Commit {
         $response = $this->client->post("/repos/{$owner}/{$repository}/git/commits", [
             RequestOptions::JSON => [
                 'message' => $message,
@@ -75,7 +80,7 @@ class CommitsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody(), true);
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Git\Commit::fromArray($content);
     }

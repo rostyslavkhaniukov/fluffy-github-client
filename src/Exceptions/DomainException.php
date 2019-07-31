@@ -29,4 +29,3 @@ class DomainException extends \DomainException
         return 'Something went wrong with GitHub API.';
     }
 }
-
