@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AirSlate\Releaser\Enums;
+namespace Fluffy\GithubClient\Enums;
 
 interface FileMode
 {

@@ -42,6 +42,10 @@ class PullRequest
         return new static($data);
     }
 
+    /**
+     * @param array $data
+     * @return PullRequest[]
+     */
     public static function fromCollection(array $data): array
     {
         return array_map(function (array $item) {

@@ -4,28 +4,12 @@ declare(strict_types=1);
 namespace Fluffy\GithubClient;
 
 use Fluffy\GithubClient\Http;
-use Fluffy\GithubClient\Entities\Commit;
-use Fluffy\GithubClient\Entities\Diff;
-use Fluffy\GithubClient\Entities\PullRequest;
-use Fluffy\GithubClient\Entities\Release;
-use Fluffy\GithubClient\Services\BlobsService;
-use Fluffy\GithubClient\Services\BranchesService;
-use Fluffy\GithubClient\Services\CheckRunsService;
-use Fluffy\GithubClient\Services\CommitsService;
-use Fluffy\GithubClient\Services\ContentsService;
-use Fluffy\GithubClient\Services\LabelsService;
-use Fluffy\GithubClient\Services\PullRequestsService;
-use Fluffy\GithubClient\Services\RefsService;
-use Fluffy\GithubClient\Services\SearchService;
-use Fluffy\GithubClient\Services\StatusesService;
-use Fluffy\GithubClient\Services\TreesService;
-use Fluffy\GithubClient\Services\WebhookProcessorService;
-use Fluffy\GithubClient\Services\WebhooksService;
+use Fluffy\GithubClient\Entities;
+use Fluffy\GithubClient\Services;
 use GuzzleHttp\RequestOptions;
 
 /**
  * Class Client
- *
  * @package Fluffy\GithubClient
  */
 class Client
@@ -42,43 +26,43 @@ class Client
     /** @var Http\Client */
     private $httpClient;
 
-    /** @var PullRequestsService */
+    /** @var Services\PullRequestsService */
     private $pullRequestsService;
 
-    /** @var WebhooksService */
+    /** @var Services\WebhooksService */
     private $webhooksService;
 
-    /** @var LabelsService */
+    /** @var Services\LabelsService */
     private $labelsService;
 
-    /** @var CommitsService */
+    /** @var Services\CommitsService */
     private $commitsService;
 
-    /** @var StatusesService */
+    /** @var Services\StatusesService */
     private $statusesService;
 
-    /** @var CheckRunsService */
+    /** @var Services\CheckRunsService */
     private $checkRunsService;
 
-    /** @var WebhookProcessorService */
+    /** @var Services\WebhookProcessorService */
     private $webhooksProcessorService;
 
-    /** @var ContentsService */
+    /** @var Services\ContentsService */
     private $contentsService;
 
-    /** @var BranchesService */
+    /** @var Services\BranchesService */
     private $branchesService;
 
-    /** @var RefsService */
+    /** @var Services\RefsService */
     private $refsService;
 
-    /** @var BlobsService */
+    /** @var Services\BlobsService */
     private $blobsService;
 
-    /** @var TreesService */
+    /** @var Services\TreesService */
     private $treesService;
 
-    /** @var SearchService */
+    /** @var Services\SearchService */
     private $searchService;
 
     /**
@@ -95,115 +79,115 @@ class Client
     public function webhookProcessorService()
     {
         if (!$this->webhooksProcessorService) {
-            $this->webhooksProcessorService = new WebhookProcessorService($this->httpClient, $this->owner);
+            $this->webhooksProcessorService = new Services\WebhookProcessorService($this->httpClient, $this->owner);
         }
 
         return $this->webhooksProcessorService;
     }
 
-    public function webhooks(): WebhooksService
+    public function webhooks(): Services\WebhooksService
     {
         if (!$this->webhooksService) {
-            $this->webhooksService = new WebhooksService($this->httpClient, $this->owner);
+            $this->webhooksService = new Services\WebhooksService($this->httpClient, $this->owner);
         }
 
         return $this->webhooksService;
     }
 
-    public function search(): SearchService
+    public function search(): Services\SearchService
     {
         if (!$this->searchService) {
-            $this->searchService = new SearchService($this->httpClient, $this->owner);
+            $this->searchService = new Services\SearchService($this->httpClient, $this->owner);
         }
 
         return $this->searchService;
     }
 
-    public function labels(): LabelsService
+    public function labels(): Services\LabelsService
     {
         if (!$this->labelsService) {
-            $this->labelsService = new LabelsService($this->httpClient, $this->owner);
+            $this->labelsService = new Services\LabelsService($this->httpClient, $this->owner);
         }
 
         return $this->labelsService;
     }
 
-    public function branches(): BranchesService
+    public function branches(): Services\BranchesService
     {
         if (!$this->branchesService) {
-            $this->branchesService = new BranchesService($this->httpClient);
+            $this->branchesService = new Services\BranchesService($this->httpClient);
         }
 
         return $this->branchesService;
     }
 
-    public function blobs(): BlobsService
+    public function blobs(): Services\BlobsService
     {
         if (!$this->blobsService) {
-            $this->blobsService = new BlobsService($this->httpClient);
+            $this->blobsService = new Services\BlobsService($this->httpClient);
         }
 
         return $this->blobsService;
     }
 
-    public function refs(): RefsService
+    public function refs(): Services\RefsService
     {
         if (!$this->refsService) {
-            $this->refsService = new RefsService($this->httpClient);
+            $this->refsService = new Services\RefsService($this->httpClient);
         }
 
         return $this->refsService;
     }
 
-    public function pullRequests(): PullRequestsService
+    public function pullRequests(): Services\PullRequestsService
     {
         if (!$this->pullRequestsService) {
-            $this->pullRequestsService = new PullRequestsService($this->httpClient, $this->owner);
+            $this->pullRequestsService = new Services\PullRequestsService($this->httpClient, $this->owner);
         }
 
         return $this->pullRequestsService;
     }
 
-    public function contents(): ContentsService
+    public function contents(): Services\ContentsService
     {
         if (!$this->contentsService) {
-            $this->contentsService = new ContentsService($this->httpClient);
+            $this->contentsService = new Services\ContentsService($this->httpClient);
         }
 
         return $this->contentsService;
     }
 
-    public function commits(): CommitsService
+    public function commits(): Services\CommitsService
     {
         if (!$this->commitsService) {
-            $this->commitsService = new CommitsService($this->httpClient, $this->owner);
+            $this->commitsService = new Services\CommitsService($this->httpClient, $this->owner);
         }
 
         return $this->commitsService;
     }
 
-    public function trees(): TreesService
+    public function trees(): Services\TreesService
     {
         if (!$this->treesService) {
-            $this->treesService = new TreesService($this->httpClient);
+            $this->treesService = new Services\TreesService($this->httpClient);
         }
 
         return $this->treesService;
     }
 
-    public function statuses(): StatusesService
+    public function statuses(): Services\StatusesService
     {
         if (!$this->statusesService) {
-            $this->statusesService = new StatusesService($this->httpClient, $this->owner);
+            $this->statusesService = new Services\StatusesService($this->httpClient, $this->owner);
         }
 
         return $this->statusesService;
     }
 
-    public function checkRuns(): CheckRunsService
+    public function checkRuns(): Services\CheckRunsService
     {
         if (!$this->checkRunsService) {
-            $this->checkRunsService = new CheckRunsService($this->httpClient, $this->owner);
+            $this->checkRunsService = new Services\CheckRunsService($this->httpClient, $this->owner);
         }
 
         return $this->checkRunsService;
@@ -212,11 +196,11 @@ class Client
     /**
      * @param $baseUri
      * @param array $config
-     * @return HttpClient
+     * @return Http\Client
      */
-    public function configureClient($baseUri, array $config = []): HttpClient
+    public function configureClient($baseUri, array $config = []): Http\Client
     {
-        $httpClient = new HttpClient([
+        $httpClient = new Http\Client([
             'base_uri' => $this->prepareBaserUri($baseUri),
             'headers' => $this->prepareHeaders($config),
             'connect_timeout' => $config['connectTimeout'] ?? 30,
@@ -279,7 +263,7 @@ class Client
 
         $releasePR = [];
         foreach ($pullRequests as $pullRequest) {
-            /** @var PullRequest $pullRequest */
+            /** @var Entities\PullRequest $pullRequest */
             if (in_array($pullRequest->head->sha, $shas, true)
                 || in_array($pullRequest->mergeCommitSha, $shas, true)
             ) {
@@ -292,11 +276,11 @@ class Client
 
     public function collectReleasePRs2()
     {
-        $releases = Release::fromCollection($this->collectReleases());
+        $releases = Entities\Release::fromCollection($this->collectReleases());
         $tag = $releases[1]->tagName;
 
         $diff = $this->get($this->compareEndpoint($tag, 'master'));
-        $diff = Diff::fromArray($diff);
+        $diff = Entities\Diff::fromArray($diff);
         $shas = array_map(function ($commit) {
             return $commit->sha;
         }, $diff->commits);
@@ -310,9 +294,8 @@ class Client
         ]);
 
         $releasePRs = [];
-        $pullRequests = PullRequest::fromCollection($pullRequests);
+        $pullRequests = Entities\PullRequest::fromCollection($pullRequests);
         foreach ($pullRequests as $pullRequest) {
-            /** @var PullRequest $pullRequest */
             if (in_array($pullRequest->mergeCommitSha, $shas, true)
                 || in_array($pullRequest->head->sha, $shas, true)) {
                 $releasePRs[] = $pullRequest;
@@ -330,17 +313,17 @@ class Client
     public function collectReleases()
     {
         print("Collect releases\n");
-        return Release::fromCollection($this->get($this->releasesEndpoint()));
+        return Entities\Release::fromCollection($this->get($this->releasesEndpoint()));
     }
 
     /**
-     * @param Release $release
-     * @return Diff
+     * @param Entities\Release $release
+     * @return Entities\Diff
      */
-    public function collectDiff(Release $release)
+    public function collectDiff(Entities\Release $release)
     {
         $diff = $this->get($this->compareEndpoint($release, 'master'));
-        return Diff::fromArray($diff);
+        return Entities\Diff::fromArray($diff);
     }
 
     /**
@@ -375,7 +358,7 @@ class Client
         $commits = $this->get($this->commitsEndpoint(), [
             'per_page' => 1,
         ]);
-        $commits = Commit::fromCollection($commits);
+        $commits = Entities\Commit::fromCollection($commits);
         return array_shift($commits);
     }
 
