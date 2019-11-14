@@ -269,4 +269,12 @@ class Client
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         return $content;
     }
+
+    /**
+     * @return string
+     */
+    public function getOwner(): string
+    {
+        return $this->owner;
+    }
 }

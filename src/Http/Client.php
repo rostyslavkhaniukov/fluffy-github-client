@@ -35,9 +35,9 @@ class Client extends \GuzzleHttp\Client
             if ($exception->hasResponse() && $exception->getResponse() !== null) {
                 $code = $exception->getResponse()->getStatusCode();
             }
-            throw new DomainException($exception->getMessage(), $code);
+            throw new DomainException($exception->getMessage(), $code, $exception);
         } catch (\Exception $exception) {
-            throw new DomainException($exception->getMessage());
+            throw new DomainException($exception->getMessage(), 0, $exception);
         }
 
         return $response;
