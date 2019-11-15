@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\File;
+use Fluffy\GithubClient\Entities\FilesystemEntity;
 use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 
@@ -26,13 +27,13 @@ class ContentsService extends AbstractService
      * @param string $path
      * @return File
      */
-    public function readFile(string $owner, string $repository, string $path): File
+    public function read(string $owner, string $repository, string $path): File
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/contents/{$path}");
 
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
-        return File::fromArray($content);
+        return FilesystemEntity::fromArray($content);
     }
 
     public function getArchiveLink(string $owner, string $repository)

@@ -28,16 +28,7 @@ class File
         $this->name = $data['name'];
         $this->sha = $data['sha'];
         $this->content = $data['content'];
-        $this->encoding = $data['encoding'];
-    }
-
-    /**
-     * @param array $data
-     * @return File
-     */
-    public static function fromArray(array $data): File
-    {
-        return new static($data);
+        $this->encoding = $data['encoding'] ?? '';
     }
 
     /**
