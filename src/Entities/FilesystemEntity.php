@@ -11,10 +11,14 @@ class FilesystemEntity
 {
     /**
      * @param array $data
-     * @return File
+     * @return File|Directory
      */
-    public static function fromArray(array $data): File
+    public static function fromArray(array $data)
     {
-        var_dump($data);
+        if (array_key_exists('name', $data)) {
+            return new File($data);
+        }
+
+        return new Directory($data);
     }
 }
