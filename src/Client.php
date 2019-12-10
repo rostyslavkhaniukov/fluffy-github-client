@@ -65,6 +65,9 @@ class Client
     /** @var Services\SearchService */
     private $searchService = null;
 
+    /** @var Services\CompareService */
+    private $compareService = null;
+
     /**
      * @param array $config
      */
@@ -91,6 +94,15 @@ class Client
         }
 
         return $this->webhooksService;
+    }
+
+    public function compare(): Services\CompareService
+    {
+        if ($this->compareService === null) {
+            $this->compareService = new Services\CompareService($this->httpClient);
+        }
+
+        return $this->compareService;
     }
 
     public function search(): Services\SearchService
