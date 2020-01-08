@@ -17,6 +17,9 @@ class Tree
     /* @var array */
     private $tree;
 
+    /** @var bool */
+    private $truncated;
+
     /**
      * @param array $data
      */
@@ -25,6 +28,7 @@ class Tree
         $this->sha = $data['sha'] ?? '';
         $this->url = $data['url'] ?? '';
         $this->tree = $data['tree'] ?? [];
+        $this->truncated = (bool)$data['truncated'] ?? false;
     }
 
     /**
@@ -74,6 +78,14 @@ class Tree
     public function getTree(): array
     {
         return $this->tree;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTruncated(): bool
+    {
+        return $this->truncated;
     }
 
     /**
