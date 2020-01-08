@@ -1,41 +1,43 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Models;
 
 use Fluffy\GithubClient\Entities\Git\Blob;
 
-/**
- * @package Fluffy\GithubClient\Models
- */
 class StagedFile
 {
     /** @var string */
-    private $filePath;
+    private $path;
 
     /** @var Blob */
     private $blob;
 
-    public function __construct(string $filePath, Blob $blob)
+    /**
+     * @param string $path
+     * @param Blob $blob
+     */
+    public function __construct(string $path, Blob $blob)
     {
-        $this->filePath = $filePath;
+        $this->path = $path;
         $this->blob = $blob;
     }
 
     /**
      * @return string
      */
-    public function getFilePath(): string
+    public function getPath(): string
     {
-        return $this->filePath;
+        return $this->path;
     }
 
     /**
-     * @param string $filePath
+     * @param string $path
      */
-    public function setFilePath(string $filePath): void
+    public function setPath(string $path): void
     {
-        $this->filePath = $filePath;
+        $this->path = $path;
     }
 
     /**
