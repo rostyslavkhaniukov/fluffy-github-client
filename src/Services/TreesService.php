@@ -43,11 +43,11 @@ class TreesService extends AbstractService
      * @param string $treeSha
      * @return Tree
      */
-    public function get(string $owner, string $repository, string $treeSha): Tree
+    public function get(string $owner, string $repository, string $treeSha, bool $isRecursive = false): Tree
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/git/trees/{$treeSha}", [
             RequestOptions::QUERY => [
-                'recursive' => '1',
+                'recursive' => $isRecursive,
             ],
         ]);
 
