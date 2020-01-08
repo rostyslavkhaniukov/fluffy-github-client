@@ -6,7 +6,7 @@ namespace Fluffy\GithubClient\Entities;
 /**
  * @package Fluffy\GithubClient\Entities
  */
-class File extends FilesystemEntity
+class Directory extends FilesystemEntity
 {
     /** @var string */
     private $name;

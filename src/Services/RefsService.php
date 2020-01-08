@@ -59,7 +59,6 @@ class RefsService extends AbstractService
 
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
-        var_dump('all ok');
         return Ref::fromArray($content);
     }
 

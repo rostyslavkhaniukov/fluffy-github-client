@@ -65,6 +65,9 @@ class Client
     /** @var Services\SearchService */
     private $searchService = null;
 
+    /** @var Services\CompareService */
+    private $compareService = null;
+
     /** @var Services\TagsService */
     private $tagsService = null;
 
@@ -94,6 +97,15 @@ class Client
         }
 
         return $this->webhooksService;
+    }
+
+    public function compare(): Services\CompareService
+    {
+        if ($this->compareService === null) {
+            $this->compareService = new Services\CompareService($this->httpClient);
+        }
+
+        return $this->compareService;
     }
 
     public function search(): Services\SearchService
@@ -280,5 +292,13 @@ class Client
         ]);
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
         return $content;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOwner(): string
+    {
+        return $this->owner;
     }
 }
