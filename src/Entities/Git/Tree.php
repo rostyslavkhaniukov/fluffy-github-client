@@ -28,7 +28,7 @@ class Tree
         $this->sha = $data['sha'] ?? '';
         $this->url = $data['url'] ?? '';
         $this->tree = $data['tree'] ?? [];
-        $this->truncated = (bool)$data['truncated'] ?? false;
+        $this->truncated = (bool)($data['truncated'] ?? false);
     }
 
     /**
