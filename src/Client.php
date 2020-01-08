@@ -65,6 +65,9 @@ class Client
     /** @var Services\SearchService */
     private $searchService = null;
 
+    /** @var Services\TagsService */
+    private $tagsService = null;
+
     /**
      * @param array $config
      */
@@ -118,6 +121,15 @@ class Client
         }
 
         return $this->branchesService;
+    }
+
+    public function tags(): Services\TagsService
+    {
+        if ($this->tagsService === null) {
+            $this->tagsService = new Services\TagsService($this->httpClient);
+        }
+
+        return $this->tagsService;
     }
 
     public function blobs(): Services\BlobsService
