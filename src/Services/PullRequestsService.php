@@ -87,4 +87,18 @@ class PullRequestsService extends AbstractService
 
         return Review::fromCollection($content);
     }
+
+    /**
+     * @param string $repository
+     * @param int $id
+     * @return PullRequest
+     */
+    public function get(string $repository, int $id): PullRequest
+    {
+        $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$id}");
+
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+
+        return PullRequest::fromArray($content);
+    }
 }

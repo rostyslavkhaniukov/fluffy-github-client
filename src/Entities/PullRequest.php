@@ -25,6 +25,9 @@ class PullRequest
     /** @var User */
     public $author;
 
+    /** @var array */
+    public $base;
+
     public function __construct(array $data)
     {
         $this->number = $data['number'];
@@ -35,6 +38,7 @@ class PullRequest
         $this->htmlUrl = $data['html_url'];
         $this->labels = Label::fromCollection((array)$data['labels']);
         $this->author = User::fromArray($data['user']);
+        $this->base = $data['base'] ?? [];
     }
 
     public static function fromArray(array $data): PullRequest
