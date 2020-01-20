@@ -7,6 +7,7 @@ use Fluffy\GithubClient\Entities\File;
 use Fluffy\GithubClient\Entities\FilesystemEntity;
 use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Http\Client as HttpClient;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -25,11 +26,21 @@ class ContentsService extends AbstractService
      * @param string $owner
      * @param string $repository
      * @param string $path
+     * @param string|null $ref
      * @return File
      */
-    public function read(string $owner, string $repository, string $path): File
+    public function read(string $owner, string $repository, string $path, ?string $ref = null): File
     {
-        $response = $this->client->get("/repos/{$owner}/{$repository}/contents/{$path}");
+        $options = [];
+        if ($ref !== null) {
+            $options = [
+                RequestOptions::QUERY => [
+                    'ref' => $ref,
+                ],
+            ];
+        }
+
+        $response = $this->client->get("/repos/{$owner}/{$repository}/contents/{$path}", $options);
 
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
