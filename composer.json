@@ -10,6 +10,7 @@
   "require": {
     "php": ">=7.1",
     "ext-json": "*",
+    "ext-sodium": "*",
     "guzzlehttp/guzzle": "^6.3",
     "illuminate/support": "^5.8"
   },

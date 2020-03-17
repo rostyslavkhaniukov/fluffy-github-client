@@ -10,10 +10,10 @@ namespace Fluffy\GithubClient\Entities;
 class SecretsKey
 {
     /** @var string */
-    private $keyId;
+    private $keyId = '';
 
     /** @var string */
-    private $key;
+    private $key = '';
 
     /**
      * @param array $data
@@ -31,5 +31,21 @@ class SecretsKey
     public static function fromArray(array $data): SecretsKey
     {
         return new static($data);
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeyId(): string
+    {
+        return $this->keyId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKey(): string
+    {
+        return $this->key;
     }
 }
