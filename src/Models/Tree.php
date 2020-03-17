@@ -38,6 +38,6 @@ class Tree
             }
         }
 
-        return
+        return;
     }
 }
