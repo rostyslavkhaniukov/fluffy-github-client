@@ -48,7 +48,7 @@ class ActionsService extends AbstractService
     public function put(string $owner, string $repository, SecretsKey $key, string $name, string $value): bool
     {
         $nonce = random_bytes(SODIUM_CRYPTO_SECRETBOX_NONCEBYTES);
-        $encryptedValue = sodium_crypto_secretbox($value, $nonce, $key->getKey());
+        $encryptedValue = sodium_crypto_secretbox($value, $nonce, base64_decode($key->getKey()));
 
         $response = $this->client->put("/repos/{$owner}/{$repository}/actions/secrets/{$name}", [
             RequestOptions::JSON => [
