@@ -71,6 +71,9 @@ class Client
     /** @var Services\TagsService */
     private $tagsService = null;
 
+    /** @var Services\ActionsService */
+    private $actionsService = null;
+
     /**
      * @param array $config
      */
@@ -79,6 +82,18 @@ class Client
         $this->endpoint = $config['endpoint'] ?? 'https://api.github.com';
         $this->owner = $config['owner'];
         $this->httpClient = $this->configureClient($this->endpoint, $config);
+    }
+
+    /**
+     * @return Services\ActionsService
+     */
+    public function actionsService(): Services\ActionsService
+    {
+        if ($this->actionsService === null) {
+            $this->actionsService = new Services\ActionsService($this->httpClient, $this->owner);
+        }
+
+        return $this->actionsService;
     }
 
     public function webhookProcessorService()
