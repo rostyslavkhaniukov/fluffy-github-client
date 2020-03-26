@@ -32,19 +32,19 @@ class File extends FilesystemEntity
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getDecoded(): ?string
+    public function getDecoded(): string
     {
         if ($this->encoding === 'base64') {
             $result = base64_decode($this->content, true);
             if ($result === false) {
-                return null;
+                return '';
             }
 
             return $result;
         }
 
-        return null;
+        return '';
     }
 }
