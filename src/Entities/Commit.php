@@ -8,8 +8,13 @@ namespace Fluffy\GithubClient\Entities;
  */
 class Commit
 {
+    /** @var string */
     public $sha;
+
+    /** @var string */
     public $message;
+
+    /** @var string */
     public $title;
 
     /** @var Git\Commit */
@@ -20,9 +25,9 @@ class Commit
      */
     public function __construct(array $data)
     {
-        $this->sha = $data['sha'];
-        $this->title = $data['title'] ?? '';
-        $this->message = $data['commit']['message'] ?? '';
+        $this->sha = (string)$data['sha'];
+        $this->title = (string)($data['title'] ?? '');
+        $this->message = (string)($data['commit']['message'] ?? '');
         $this->commit = Git\Commit::fromArray($data['commit'] ?? []);
     }
 
