@@ -14,7 +14,7 @@ class Tree
     /** @var string */
     private $url;
 
-    /* @var array */
+    /* @var array<array-key, array> */
     private $tree;
 
     /** @var bool */
@@ -73,7 +73,7 @@ class Tree
     }
 
     /**
-     * @return array<array-key, string>
+     * @return array<array-key, array>
      */
     public function getTree(): array
     {
