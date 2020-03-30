@@ -73,7 +73,7 @@ class Tree
     }
 
     /**
-     * @return array
+     * @return array<array-key, string>
      */
     public function getTree(): array
     {
