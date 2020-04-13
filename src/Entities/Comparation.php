@@ -12,12 +12,16 @@ class Comparation
     /** @var int */
     private $totalCommits;
 
+    /** @var Commit[] */
+    private $commits;
+
     /**
      * @param array $data
      */
     public function __construct(array $data)
     {
         $this->totalCommits = $data['total_commits'] ?? 0;
+        $this->commits = Commit::fromCollection($data['commits'] ?? []);
     }
 
     /**
@@ -32,8 +36,24 @@ class Comparation
     /**
      * @return bool
      */
-    public function haveDiff(): bool
+    public function hasDiff(): bool
     {
         return $this->totalCommits > 0;
+    }
+
+    /**
+     * @return Commit[]
+     */
+    public function getCommits(): array
+    {
+        return $this->commits;
+    }
+
+    /**
+     * @return Commit|null
+     */
+    public function getLastCommit(): ?Commit
+    {
+        return count($this->commits) > 0 ? reset($this->commits) : null;
     }
 }
