@@ -29,7 +29,7 @@ class ReleasesService extends AbstractService
      */
     public function create(string $owner, string $repository, string $tagName, string $body = ''): Release
     {
-        $response = $this->client->post("/repos/{$owner}{$repository}/releases", [
+        $response = $this->client->post("/repos/{$owner}/{$repository}/releases", [
             'tag_name' => $tagName,
             'name' => $tagName,
             'body' => $body
