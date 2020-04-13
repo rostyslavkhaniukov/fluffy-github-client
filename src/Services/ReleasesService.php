@@ -10,7 +10,7 @@ use Fluffy\GithubClient\Http\Client as HttpClient;
 /**
  * @package Fluffy\GithubClient\Services
  */
-class ReleaseService extends AbstractService
+class ReleasesService extends AbstractService
 {
     /**
      * @param HttpClient $client
