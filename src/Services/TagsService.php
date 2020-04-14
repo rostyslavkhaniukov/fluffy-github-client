@@ -61,6 +61,5 @@ class TagsService extends AbstractService
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Tag::fromArray($content);
-
     }
 }
