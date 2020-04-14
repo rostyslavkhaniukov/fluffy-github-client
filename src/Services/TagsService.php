@@ -5,6 +5,7 @@ namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\Tag;
 use Fluffy\GithubClient\Http\Client as HttpClient;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -48,11 +49,13 @@ class TagsService extends AbstractService
         string $tagName,
         string $tagMessage = ''
     ): Tag {
-        $response = $this->client->post("/repos/{$owner}/{$repository}/tags", [
-            'tag' => $tagName,
-            'tagMessage' => $tagMessage,
-            'object' => $targetCommitSHA,
-            'type' => 'commit',
+        $response = $this->client->post("/repos/{$owner}/{$repository}/git/tags", [
+            RequestOptions::JSON => [
+                'tag' => $tagName,
+                'message' => $tagMessage,
+                'object' => $targetCommitSHA,
+                'type' => 'commit',
+            ]
         ]);
 
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);

@@ -6,6 +6,7 @@ namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\Release;
 use Fluffy\GithubClient\Http\Client as HttpClient;
+use GuzzleHttp\RequestOptions;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -30,9 +31,11 @@ class ReleasesService extends AbstractService
     public function create(string $owner, string $repository, string $tagName, string $body = ''): Release
     {
         $response = $this->client->post("/repos/{$owner}/{$repository}/releases", [
-            'tag_name' => $tagName,
-            'name' => $tagName,
-            'body' => $body
+            RequestOptions::JSON => [
+                'tag_name' => $tagName,
+                'name' => $tagName,
+                'body' => $body
+            ]
         ]);
 
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);

@@ -12,7 +12,7 @@ class Tag
 
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
+        $this->name = $data['tag'] ?? $data['name'];
     }
 
     /**
