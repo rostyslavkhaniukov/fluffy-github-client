@@ -42,7 +42,7 @@ class Comparation
     }
 
     /**
-     * @return Commit[]
+     * @return array<int, Commit>
      */
     public function getCommits(): array
     {
