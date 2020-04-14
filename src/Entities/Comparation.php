@@ -12,7 +12,7 @@ class Comparation
     /** @var int */
     private $totalCommits;
 
-    /** @var Commit[] */
+    /** @var array<int, Commit> */
     private $commits;
 
     /**

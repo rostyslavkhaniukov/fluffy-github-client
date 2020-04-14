@@ -12,6 +12,9 @@ use GuzzleHttp\RequestOptions;
  */
 class TagsService extends AbstractService
 {
+    /** @const string  */
+    private const TAG_TYPE_COMMIT = 'commit';
+
     /**
      * @param HttpClient $client
      */
@@ -54,7 +57,7 @@ class TagsService extends AbstractService
                 'tag' => $tagName,
                 'message' => $tagMessage,
                 'object' => $targetCommitSHA,
-                'type' => 'commit',
+                'type' => self::TAG_TYPE_COMMIT,
             ]
         ]);
 
