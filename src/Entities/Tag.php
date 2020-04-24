@@ -12,9 +12,21 @@ class Tag
 
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
+        $this->name = $data['tag'] ?? $data['name'];
     }
 
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param array $data
+     * @return Tag
+     */
     public static function fromArray(array $data): Tag
     {
         return new static($data);
@@ -22,7 +34,7 @@ class Tag
 
     /**
      * @param array $data
-     * @return array
+     * @return Tag[]
      */
     public static function fromCollection(array $data): array
     {

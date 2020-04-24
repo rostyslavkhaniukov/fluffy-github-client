@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Fluffy\GithubClient;
 
 use Fluffy\GithubClient\Http;
-use Fluffy\GithubClient\Entities;
 use Fluffy\GithubClient\Services;
 use GuzzleHttp\RequestOptions;
 
@@ -19,9 +18,6 @@ class Client
 
     /** @var string */
     private $owner;
-
-    /** @var string */
-    private $repo;
 
     /** @var Http\Client */
     private $httpClient;
@@ -70,6 +66,9 @@ class Client
 
     /** @var Services\TagsService */
     private $tagsService = null;
+
+    /** @var Services\ReleasesService */
+    private $releasesService = null;
 
     /** @var Services\ActionsService */
     private $actionsService = null;
@@ -157,6 +156,15 @@ class Client
         }
 
         return $this->tagsService;
+    }
+
+    public function releases(): Services\ReleasesService
+    {
+        if ($this->releasesService === null) {
+            $this->releasesService = new Services\ReleasesService($this->httpClient);
+        }
+
+        return $this->releasesService;
     }
 
     public function blobs(): Services\BlobsService

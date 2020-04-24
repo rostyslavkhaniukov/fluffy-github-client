@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
 
-use Fluffy\GithubClient\Entities\Git\Tree;
 use Fluffy\GithubClient\Entities\Tag;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
@@ -13,6 +12,9 @@ use GuzzleHttp\RequestOptions;
  */
 class TagsService extends AbstractService
 {
+    /** @const string  */
+    private const TAG_TYPE_COMMIT = 'commit';
+
     /**
      * @param HttpClient $client
      */
@@ -24,8 +26,7 @@ class TagsService extends AbstractService
     /**
      * @param string $owner
      * @param string $repository
-     * @param string $treeSha
-     * @return Tree
+     * @return Tag[]
      */
     public function all(string $owner, string $repository): array
     {
@@ -34,5 +35,34 @@ class TagsService extends AbstractService
         $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
 
         return Tag::fromCollection($content);
+    }
+
+    /**
+     * @param string $owner
+     * @param string $repository
+     * @param string $targetCommitSHA
+     * @param string $tagName
+     * @param string $tagMessage
+     * @return Tag
+     */
+    public function create(
+        string $owner,
+        string $repository,
+        string $targetCommitSHA,
+        string $tagName,
+        string $tagMessage = ''
+    ): Tag {
+        $response = $this->client->post("/repos/{$owner}/{$repository}/git/tags", [
+            RequestOptions::JSON => [
+                'tag' => $tagName,
+                'message' => $tagMessage,
+                'object' => $targetCommitSHA,
+                'type' => self::TAG_TYPE_COMMIT,
+            ]
+        ]);
+
+        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+
+        return Tag::fromArray($content);
     }
 }
