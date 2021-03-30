@@ -4,8 +4,7 @@ declare(strict_types=1);
 namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\File;
-use Fluffy\GithubClient\Entities\FilesystemEntity;
-use Fluffy\GithubClient\Entities\Label;
+use Fluffy\GithubClient\Entities\Directory;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
 
@@ -31,7 +30,32 @@ class ContentsService extends AbstractService
      */
     public function read(string $owner, string $repository, string $path, ?string $ref = null): File
     {
+        return File::fromArray($this->readPath($owner, $repository, $path, $ref));
+    }
+
+    /**
+     * @param string $owner
+     * @param string $repository
+     * @param string $path
+     * @param string|null $ref
+     * @return Directory
+     */
+    public function readDirectory(string $owner, string $repository, string $path, ?string $ref = null): Directory
+    {
+        return Directory::fromArray($this->readPath($owner, $repository, $path, $ref));
+    }
+
+    /**
+     * @param string $owner
+     * @param string $repository
+     * @param string $path
+     * @param string|null $ref
+     * @return array
+     */
+    private function readPath(string $owner, string $repository, string $path, ?string $ref = null): array
+    {
         $options = [];
+
         if ($ref !== null) {
             $options = [
                 RequestOptions::QUERY => [
@@ -42,9 +66,7 @@ class ContentsService extends AbstractService
 
         $response = $this->client->get("/repos/{$owner}/{$repository}/contents/{$path}", $options);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
-
-        return FilesystemEntity::fromArray($content);
+        return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
     }
 
     public function getArchiveLink(string $owner, string $repository)

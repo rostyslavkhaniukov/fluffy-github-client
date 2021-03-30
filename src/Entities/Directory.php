@@ -6,45 +6,24 @@ namespace Fluffy\GithubClient\Entities;
 /**
  * @package Fluffy\GithubClient\Entities
  */
-class Directory extends FilesystemEntity
+class Directory extends AbstractEntity
 {
-    /** @var string */
-    private $name;
-
-    /** @var string */
-    private $sha;
-
-    /** @var string */
-    private $content;
-
-    /** @var string */
-    private $encoding;
+    /** @var FilesystemEntity[] */
+    private $filesystemEntities;
 
     /**
      * @param array $data
      */
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
-        $this->sha = $data['sha'];
-        $this->content = $data['content'];
-        $this->encoding = $data['encoding'] ?? '';
+        $this->filesystemEntities = FilesystemEntity::fromCollection($data);
     }
 
     /**
-     * @return string|null
+     * @return FilesystemEntity[]
      */
-    public function getDecoded(): ?string
+    public function getFilesystemEntities(): array
     {
-        if ($this->encoding === 'base64') {
-            $result = base64_decode($this->content, true);
-            if ($result === false) {
-                return null;
-            }
-
-            return $result;
-        }
-
-        return null;
+        return $this->filesystemEntities;
     }
 }
