@@ -1,36 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
 
 use Fluffy\GithubClient\Entities\Commit;
-use Fluffy\GithubClient\Entities\Label;
-use Fluffy\GithubClient\Entities\Ref;
 use Fluffy\GithubClient\Entities\Git;
-use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
-/**
- * Class CommitsService
- * @package Fluffy\GithubClient\Services
- */
 class CommitsService extends AbstractService
 {
-    /**
-     * @param HttpClient $client
-     * @param string $owner
-     */
-    public function __construct(HttpClient $client, string $owner)
-    {
-        parent::__construct($client, $owner);
-    }
-
-    /**
-     * @param string $repository
-     * @param string $ref
-     * @return Label[]
-     */
-    public function checkSuites(string $repository, string $ref): array
+    public function checkSuites(string $repository, string $ref)
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/commits/{$ref}/check-suites", [
             RequestOptions::HEADERS => [
@@ -38,33 +19,18 @@ class CommitsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
-
-        // return Label::fromCollection($content);
+        Utils::jsonDecode($response->getBody()->getContents(), true);
     }
 
-    /**
-     * @param string $repository
-     * @param string $sha
-     * @return Commit
-     */
     public function get(string $repository, string $sha): Commit
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/commits/{$sha}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Commit::fromArray($content);
     }
 
-    /**
-     * @param string $owner
-     * @param string $repository
-     * @param string $treeSha
-     * @param array $parents
-     * @param string $message
-     * @return Git\Commit
-     */
     public function commit(
         string $owner,
         string $repository,
@@ -80,7 +46,7 @@ class CommitsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Git\Commit::fromArray($content);
     }

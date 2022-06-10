@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -6,6 +7,7 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * Class LabelsService
@@ -34,7 +36,7 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Label::fromCollection($content);
     }
@@ -59,7 +61,7 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Label::fromArray($content);
     }
@@ -84,7 +86,7 @@ class LabelsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Label::fromArray($content);
     }

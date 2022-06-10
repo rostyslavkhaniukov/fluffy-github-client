@@ -30,7 +30,7 @@ class Tree
             return !in_array($leaf['path'], $deletedPaths, true);
         }));
 
-        for ($i = 0; $i < count ($withoutDeleted); $i++) {
+        for ($i = 0; $i < count($withoutDeleted); $i++) {
             $path = $withoutDeleted[$i]['path'];
 
             if (array_key_exists($path, $stagedMapping)) {

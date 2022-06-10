@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -31,7 +32,7 @@ class WebhookEvent
      */
     public static function fromArray(array $data): WebhookEvent
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

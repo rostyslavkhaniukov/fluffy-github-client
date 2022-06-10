@@ -26,7 +26,7 @@ class Release
      */
     public static function fromArray(array $data): Release
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

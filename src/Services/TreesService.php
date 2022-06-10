@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -6,6 +7,7 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\Git\Tree;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -32,7 +34,7 @@ class TreesService extends AbstractService
             RequestOptions::JSON => $tree
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Tree::fromArray($content);
     }
@@ -51,7 +53,7 @@ class TreesService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Tree::fromArray($content);
     }

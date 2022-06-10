@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -10,6 +11,7 @@ use Fluffy\GithubClient\Entities\Git\BlobContent;
 use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -34,7 +36,7 @@ class BlobsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/git/blobs/{$fileSha}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return BlobContent::fromArray($content);
     }
@@ -55,7 +57,7 @@ class BlobsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Blob::fromArray($content);
     }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities\Git;
@@ -8,39 +9,23 @@ namespace Fluffy\GithubClient\Entities\Git;
  */
 class Commit
 {
-    /** @var array */
-    private $author;
+    private array $author;
+    private array $commiter;
+    private string $message;
+    public Tree $tree;
+    private string $url;
+    private int $commentCount;
+    private ?string $sha;
 
-    /** @var array */
-    private $commiter;
-
-    /** @var string */
-    private $message;
-
-    /** @var Tree */
-    public $tree;
-
-    /** @var string */
-    private $url;
-
-    /** @var int */
-    private $commentCount;
-
-    /** @var string|null */
-    private $sha;
-
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
-        $this->sha = $data['sha'] ?? null;
-        $this->author = $data['author'] ?? [];
-        $this->commiter = $data['commiter'] ?? [];
-        $this->message = $data['message'] ?? '';
+        $this->sha = (string)($data['sha'] ?? null);
+        $this->author = (array)($data['author'] ?? []);
+        $this->commiter = (array)($data['commiter'] ?? []);
+        $this->message = (string)($data['message'] ?? '');
         $this->tree = Tree::fromArray($data['tree'] ?? []);
-        $this->url = $data['url'] ?? '';
-        $this->commentCount = $data['comment_count'] ?? 0;
+        $this->url = (string)($data['url'] ?? '');
+        $this->commentCount = (int)($data['comment_count'] ?? 0);
     }
 
     /**
@@ -49,7 +34,7 @@ class Commit
      */
     public static function fromArray(array $data): Commit
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**
@@ -66,5 +51,30 @@ class Commit
     public function setSha(?string $sha): void
     {
         $this->sha = $sha;
+    }
+
+    public function getAuthor(): array
+    {
+        return $this->author;
+    }
+
+    public function getCommiter(): array
+    {
+        return $this->commiter;
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getCommentCount(): int
+    {
+        return $this->commentCount;
     }
 }

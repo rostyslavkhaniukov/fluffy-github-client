@@ -29,7 +29,7 @@ class Tag
      */
     public static function fromArray(array $data): Tag
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

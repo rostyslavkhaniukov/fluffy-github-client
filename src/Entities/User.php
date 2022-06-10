@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -27,7 +28,7 @@ class User
      */
     public static function fromArray(array $data): User
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

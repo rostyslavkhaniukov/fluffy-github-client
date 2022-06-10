@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -25,6 +26,6 @@ class Diff
      */
     public static function fromArray(array $data): Diff
     {
-        return new static($data);
+        return new self($data);
     }
 }

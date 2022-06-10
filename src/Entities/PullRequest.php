@@ -43,7 +43,7 @@ class PullRequest
 
     public static function fromArray(array $data): PullRequest
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -8,27 +9,22 @@ namespace Fluffy\GithubClient\Entities;
  */
 class Branch
 {
-    /** @var Commit */
-    public $commit;
+    public Commit $commit;
+    private string $name;
 
-    /** @var string */
-    private $name;
-
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
-        $this->name = $data['name'] ?? '';
+        $this->name = (string)($data['name'] ?? '');
         $this->commit = Commit::fromArray($data['commit']);
     }
 
-    /**
-     * @param array $data
-     * @return Branch
-     */
     public static function fromArray(array $data): Branch
     {
-        return new static($data);
+        return new self($data);
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Http;
@@ -6,17 +7,17 @@ namespace Fluffy\GithubClient\Http;
 use Fluffy\GithubClient\Exceptions\DomainException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Client as GuzzleClient;
 
-/**
- * Class Client
- * @package Fluffy\GithubClient\Http
- */
-class Client extends \GuzzleHttp\Client
+class Client
 {
-    /**
-     * @var array
-     */
-    private $queryParams = [];
+    private array $queryParams = [];
+    private GuzzleClient $guzzleClient;
+
+    public function __construct(GuzzleClient $guzzleClient)
+    {
+        $this->guzzleClient = $guzzleClient;
+    }
 
     /**
      * @inheritdoc
@@ -29,7 +30,7 @@ class Client extends \GuzzleHttp\Client
 
             $this->clearOptions();
 
-            $response = parent::request($method, $uri, $resolvedOptions);
+            $response = $this->guzzleClient->request($method, $uri, $resolvedOptions);
         } catch (RequestException $exception) {
             $code = $exception->getCode();
             if ($exception->hasResponse() && $exception->getResponse() !== null) {
@@ -41,6 +42,26 @@ class Client extends \GuzzleHttp\Client
         }
 
         return $response;
+    }
+
+    public function get($uri = '', array $options = [])
+    {
+        return $this->request('GET', $uri, $options);
+    }
+
+    public function post($uri = '', array $options = [])
+    {
+        return $this->request('POST', $uri, $options);
+    }
+
+    public function patch($uri = '', array $options = [])
+    {
+        return $this->request('PATCH', $uri, $options);
+    }
+
+    public function put($uri = '', array $options = [])
+    {
+        return $this->request('PUT', $uri, $options);
     }
 
     /**

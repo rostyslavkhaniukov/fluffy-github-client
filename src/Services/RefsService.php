@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -6,10 +7,8 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\Ref;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
-/**
- * @package Fluffy\GithubClient\Services
- */
 class RefsService extends AbstractService
 {
     /**
@@ -36,7 +35,7 @@ class RefsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Ref::fromArray($content);
     }
@@ -57,7 +56,7 @@ class RefsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Ref::fromArray($content);
     }
@@ -71,7 +70,7 @@ class RefsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/git/refs");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Ref::fromArray($content);
     }

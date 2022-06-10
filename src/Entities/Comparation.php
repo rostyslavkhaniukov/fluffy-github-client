@@ -30,7 +30,7 @@ class Comparation
      */
     public static function fromArray(array $data): Comparation
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

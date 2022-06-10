@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -39,7 +40,7 @@ class Status
      */
     public static function fromArray(array $data): Status
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

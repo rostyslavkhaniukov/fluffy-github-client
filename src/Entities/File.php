@@ -1,34 +1,22 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
 
-/**
- * @package Fluffy\GithubClient\Entities
- */
 class File extends AbstractEntity
 {
-    /** @var string */
-    private $name;
+    private string $name;
+    private string $sha;
+    private string $content;
+    private string $encoding;
 
-    /** @var string */
-    private $sha;
-
-    /** @var string */
-    private $content;
-
-    /** @var string */
-    private $encoding;
-
-    /**
-     * @param array $data
-     */
     public function __construct(array $data)
     {
-        $this->name = $data['name'];
-        $this->sha = $data['sha'];
-        $this->content = $data['content'];
-        $this->encoding = $data['encoding'] ?? '';
+        $this->name = (string)$data['name'];
+        $this->sha = (string)$data['sha'];
+        $this->content = (string)$data['content'];
+        $this->encoding = (string)($data['encoding'] ?? '');
     }
 
     /**
@@ -46,5 +34,15 @@ class File extends AbstractEntity
         }
 
         return '';
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function getSha(): string
+    {
+        return $this->sha;
     }
 }

@@ -7,6 +7,7 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\SecretsKey;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -31,7 +32,7 @@ class ActionsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/actions/secrets/public-key");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return SecretsKey::fromArray($content);
     }

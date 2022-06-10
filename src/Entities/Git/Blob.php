@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities\Git;
@@ -29,7 +30,7 @@ class Blob
      */
     public static function fromArray(array $data): Blob
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

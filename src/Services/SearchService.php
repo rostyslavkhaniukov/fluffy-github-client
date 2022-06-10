@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -6,6 +7,7 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\Issue;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -31,7 +33,7 @@ class SearchService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Issue::fromCollection($content['items']);
     }

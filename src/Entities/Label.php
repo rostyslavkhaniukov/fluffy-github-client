@@ -37,7 +37,7 @@ class Label
      */
     public static function fromArray(array $data): Label
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

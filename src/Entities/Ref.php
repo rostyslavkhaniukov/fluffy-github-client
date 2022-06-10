@@ -1,34 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Fluffy\GithubClient\Entities;
 
-/**
- * @package Fluffy\GithubClient\Entities
- */
 class Ref
 {
-    /** @var string */
-    private $ref;
-
-    /** @var string */
-    private $nodeId;
-
-    /** @var string */
-    private $url;
-
-    /** @var string */
-    public $objectSha;
+    private string $ref;
+    private string $nodeId;
+    private string $url;
+    public string $objectSha;
 
     public function __construct(array $data)
     {
-        $this->ref = $data['ref'];
-        $this->nodeId = $data['node_id'];
-        $this->url = $data['url'];
-        $this->objectSha = $data['object']['sha'];
+        $this->ref = (string)$data['ref'];
+        $this->nodeId = (string)$data['node_id'];
+        $this->url = (string)$data['url'];
+        $this->objectSha = (string)$data['object']['sha'];
     }
 
     public static function fromArray(array $data): Ref
     {
-        return new static($data);
+        return new self($data);
+    }
+
+    public function getRef(): string
+    {
+        return $this->ref;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNodeId(): string
+    {
+        return $this->nodeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 }

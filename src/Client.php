@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient;
@@ -6,30 +7,18 @@ namespace Fluffy\GithubClient;
 use Fluffy\GithubClient\Http;
 use Fluffy\GithubClient\Services;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
+use GuzzleHttp\Client as GuzzleClient;
 
-/**
- * Class Client
- * @package Fluffy\GithubClient
- */
 class Client
 {
-    /** @var string */
-    private $endpoint;
+    private string $endpoint;
+    private string $owner;
+    private Http\Client $httpClient;
 
-    /** @var string */
-    private $owner;
-
-    /** @var Http\Client */
-    private $httpClient;
-
-    /** @var Services\PullRequestsService */
-    private $pullRequestsService = null;
-
-    /** @var Services\WebhooksService */
-    private $webhooksService = null;
-
-    /** @var Services\LabelsService */
-    private $labelsService = null;
+    private ?Services\PullRequestsService $pullRequestsService = null;
+    private ?Services\WebhooksService $webhooksService = null;
+    private ?Services\LabelsService $labelsService = null;
 
     /** @var Services\CommitsService */
     private $commitsService = null;
@@ -246,12 +235,12 @@ class Client
      */
     public function configureClient(string $baseUri, array $config = []): Http\Client
     {
-        $httpClient = new Http\Client([
+        $httpClient = new Http\Client(new GuzzleClient([
             'base_uri' => $this->prepareBaserUri($baseUri),
             'headers' => $this->prepareHeaders($config),
             'connect_timeout' => $config['connectTimeout'] ?? 30,
             'request_timeout' => $config['requestTimeout'] ?? 30,
-        ]);
+        ]));
 
         return $httpClient;
     }
@@ -299,7 +288,7 @@ class Client
             RequestOptions::QUERY => $query,
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return $content;
     }
@@ -313,7 +302,7 @@ class Client
                 'base' => 'master',
             ],
         ]);
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
         return $content;
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -6,6 +7,7 @@ namespace Fluffy\GithubClient\Services;
 use Fluffy\GithubClient\Entities\Webhook;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * Class WebhooksService
@@ -30,7 +32,7 @@ class WebhooksService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/hooks");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Webhook::fromCollection($content);
     }
@@ -50,7 +52,7 @@ class WebhooksService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Webhook::fromArray($content);
     }

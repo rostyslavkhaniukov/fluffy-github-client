@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities;
@@ -37,7 +38,7 @@ class Commit
      */
     public static function fromArray(array $data): Commit
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

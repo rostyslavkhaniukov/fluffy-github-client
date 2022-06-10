@@ -1,32 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
 
-use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
-/**
- * Class CheckRunsService
- * @package Fluffy\GithubClient\Services
- */
 class CheckRunsService extends AbstractService
 {
-    /**
-     * @param HttpClient $client
-     * @param string $owner
-     */
-    public function __construct(HttpClient $client, string $owner)
-    {
-        parent::__construct($client, $owner);
-    }
-
-    /**
-     * @param string $repository
-     * @param string $ref
-     * @return array
-     */
-    public function create(string $repository, string $ref): array
+    public function create(string $repository, string $ref)
     {
         $response = $this->client->post("/repos/{$this->owner}/{$repository}/check-runs", [
             RequestOptions::JSON => [
@@ -38,8 +21,6 @@ class CheckRunsService extends AbstractService
             ],
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
-
-        //return Label::fromArray($content);
+        Utils::jsonDecode($response->getBody()->getContents(), true);
     }
 }

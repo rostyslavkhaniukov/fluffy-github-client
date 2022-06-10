@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -8,6 +9,7 @@ use Fluffy\GithubClient\Entities\PullRequest;
 use Fluffy\GithubClient\Entities\Review;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 class PullRequestsService extends AbstractService
 {
@@ -39,7 +41,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return PullRequest::fromCollection($content);
     }
@@ -53,7 +55,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$pullId}/commits");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Commit::fromArray($content);
     }
@@ -69,9 +71,7 @@ class PullRequestsService extends AbstractService
             ]
         ]);
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
-
-        //return Commit::fromArray($content);
+        Utils::jsonDecode($response->getBody()->getContents(), true);
     }
 
     /**
@@ -83,7 +83,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$id}/reviews");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Review::fromCollection($content);
     }
@@ -97,7 +97,7 @@ class PullRequestsService extends AbstractService
     {
         $response = $this->client->get("/repos/{$this->owner}/{$repository}/pulls/{$id}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return PullRequest::fromArray($content);
     }

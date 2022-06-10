@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Entities\Git;
@@ -37,7 +38,7 @@ class Tree
      */
     public static function fromArray(array $data): Tree
     {
-        return new static($data);
+        return new self($data);
     }
 
     /**

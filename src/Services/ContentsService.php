@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -7,6 +8,7 @@ use Fluffy\GithubClient\Entities\File;
 use Fluffy\GithubClient\Entities\Directory;
 use Fluffy\GithubClient\Http\Client as HttpClient;
 use GuzzleHttp\RequestOptions;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -66,7 +68,7 @@ class ContentsService extends AbstractService
 
         $response = $this->client->get("/repos/{$owner}/{$repository}/contents/{$path}", $options);
 
-        return \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        return Utils::jsonDecode($response->getBody()->getContents(), true);
     }
 
     public function getArchiveLink(string $owner, string $repository)

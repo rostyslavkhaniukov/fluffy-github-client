@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Fluffy\GithubClient\Services;
@@ -7,6 +8,7 @@ use Fluffy\GithubClient\Entities\Branch;
 use Fluffy\GithubClient\Entities\File;
 use Fluffy\GithubClient\Entities\Label;
 use Fluffy\GithubClient\Http\Client as HttpClient;
+use GuzzleHttp\Utils;
 
 /**
  * @package Fluffy\GithubClient\Services
@@ -31,7 +33,7 @@ class BranchesService extends AbstractService
     {
         $response = $this->client->get("/repos/{$owner}/{$repository}/branches/{$name}");
 
-        $content = \GuzzleHttp\json_decode($response->getBody()->getContents(), true);
+        $content = Utils::jsonDecode($response->getBody()->getContents(), true);
 
         return Branch::fromArray($content);
     }
